@@ -7,7 +7,10 @@ authors = [
     { name = "midas0715", email = "prathamsarin0@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "fastapi>=0.141.1",
+    "uvicorn>=0.52.4",
+]
 
 [project.scripts]
 devtrack = "devtrack:main"
