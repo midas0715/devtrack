@@ -11,3 +11,6 @@ def create_issue(db: Session, issue: IssueCreate):
 
 def get_issues(db: Session):
     return db.query(Issue).all()
+
+def get_issue_by_id(db:Session, issue_id:int):
+    return db.query(Issue).filter(Issue.id==issue_id).first()
