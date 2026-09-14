@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Mapped,mapped_column
+from sqlalchemy.orm import Mapped,mapped_column,relationship
 from sqlalchemy import Integer,String,DateTime,func,ForeignKey
 from datetime import datetime
 from typing import Optional,Literal
@@ -15,4 +15,4 @@ class Issue(Base):
     priority: Mapped[str]=mapped_column(String)
     creator: Mapped[str]=mapped_column(String)
     created_at: Mapped[datetime]=mapped_column(DateTime,server_default=func.now())
-    
+    comments: Mapped[list["Comment"]] = relationship("Comment", cascade="all, delete-orphan")

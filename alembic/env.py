@@ -7,6 +7,7 @@ from devtrack.database.base import Base
 from devtrack.models.project import Project
 from devtrack.database.session import engine
 from devtrack.models.issue import Issue
+from devtrack.models.comment import Comment
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
