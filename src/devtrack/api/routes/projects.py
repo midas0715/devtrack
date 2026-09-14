@@ -1,9 +1,9 @@
 from fastapi import APIRouter,Depends,HTTPException
 from typing import List
-from devtrack.schemas.project import ProjectCreate,ProjectRead
+from devtrack.schemas.project import ProjectCreate,ProjectRead,ProjectUpdate
 from devtrack.database.session import get_db
 from sqlalchemy.orm import Session
-from devtrack.repositories.project_repository import create_project,get_projects,get_project_by_id
+from devtrack.repositories.project_repository import create_project,get_projects,get_project_by_id,update_project
 
 router=APIRouter()
 
@@ -20,5 +20,12 @@ def get_all_projects(db: Session=Depends(get_db)):
 def get_by_id(project_id:int,db:Session=Depends(get_db)):
     project= get_project_by_id(db,project_id)
     if project is None: 
+        raise HTTPException(status_code=404,detail=f"Project {project_id} not found")
+    return project
+
+@router.patch("/projects/{project_id}", response_model=ProjectRead)
+def updating_project(project_id: int, updates: ProjectUpdate, db: Session= Depends(get_db)):
+    project= update_project(db,project_id,updates)
+    if project is None:
         raise HTTPException(status_code=404,detail=f"Project {project_id} not found")
     return project

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class ProjectCreate(BaseModel):
     name: str
@@ -11,3 +12,6 @@ class ProjectRead(BaseModel):
     description: str
     created_at:datetime
 
+class ProjectUpdate(BaseModel):
+    name: Optional[str]=None
+    description: Optional[str]=None
