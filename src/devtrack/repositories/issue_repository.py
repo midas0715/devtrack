@@ -24,3 +24,10 @@ def update_an_issue(db:Session, issue_id:int, updates: IssueUpdate):
     db.commit()
     db.refresh(issue)
     return issue
+
+def delete_issue(db:Session, issue_id:int):
+    issue= db.query(Issue).filter(Issue.id==issue_id).first()
+    if issue is None: return None
+    db.delete(issue)
+    db.commit()
+    return issue
