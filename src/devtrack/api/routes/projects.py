@@ -3,7 +3,7 @@ from typing import List
 from devtrack.schemas.project import ProjectCreate,ProjectRead,ProjectUpdate
 from devtrack.database.session import get_db
 from sqlalchemy.orm import Session
-from devtrack.repositories.project_repository import create_project,get_projects,get_project_by_id,update_project
+from devtrack.repositories.project_repository import create_project,get_projects,get_project_by_id,update_project,delete_project
 
 router=APIRouter()
 
@@ -28,4 +28,11 @@ def updating_project(project_id: int, updates: ProjectUpdate, db: Session= Depen
     project= update_project(db,project_id,updates)
     if project is None:
         raise HTTPException(status_code=404,detail=f"Project {project_id} not found")
+    return project
+
+@router.delete("/projects/{project_id}", status_code=204)
+def deleting_a_project(project_id:int, db:Session= Depends(get_db)):
+    project= delete_project(db, project_id)
+    if project is None:
+        raise HTTPException(status_code=404, detail=f"Project {project_id} doesn't exists")
     return project

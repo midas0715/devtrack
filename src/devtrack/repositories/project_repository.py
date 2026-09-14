@@ -24,3 +24,10 @@ def update_project(db: Session, project_id:int, updates: ProjectUpdate):
     db.commit()
     db.refresh(project)
     return project
+
+def delete_project(db: Session, project_id:int):
+    project = db.query(Project).filter(Project.id==project_id).first()
+    if project is None: return None
+    db.delete(project)
+    db.commit() 
+    return project
