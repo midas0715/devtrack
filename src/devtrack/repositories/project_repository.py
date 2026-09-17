@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
 from devtrack.models.project import Project
 from devtrack.schemas.project import ProjectCreate,ProjectUpdate
+from devtrack.models.user import User
 
-def create_project(db: Session, project:ProjectCreate):
-    new_project= Project(**project.model_dump())
+def create_project(db: Session, project:ProjectCreate, user: User):
+    new_project= Project(**project.model_dump(), creator_id=user.id)
     db.add(new_project)
     db.commit()
     db.refresh(new_project)

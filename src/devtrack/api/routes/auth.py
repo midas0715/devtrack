@@ -24,3 +24,9 @@ def user_login(cred: UserCreate, db:Session=Depends(get_db)):
     token= create_access_token({"user_id":user.id})
 
     return {"access_token": token, "token_type":"bearer"}
+
+from devtrack.api.dependencies import get_current_user
+from devtrack.models.user import User
+@router.get("/me")
+def read_current_user(current_user: User = Depends(get_current_user)):
+    return {"id": current_user.id, "email": current_user.email}

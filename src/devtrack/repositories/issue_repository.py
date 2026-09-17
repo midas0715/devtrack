@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
 from devtrack.models.issue import Issue
 from devtrack.schemas.issue import IssueCreate,IssueUpdate
+from devtrack.models.user import User
 
-def create_issue(db: Session, issue: IssueCreate):
-    new_issue= Issue(**issue.model_dump(), creator="temp_user")
+def create_issue(db: Session, issue: IssueCreate, current_user: User):
+    new_issue= Issue(**issue.model_dump(), creator=current_user.email)
     db.add(new_issue)
     db.commit()
     db.refresh(new_issue)

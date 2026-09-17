@@ -4,12 +4,14 @@ from devtrack.repositories.issue_repository import get_issues,create_issue,get_i
 from typing import List
 from sqlalchemy.orm import Session
 from devtrack.database.session import get_db
+from devtrack.api.dependencies import get_current_user
+from devtrack.models.user import User
 
 router=APIRouter()
 
 @router.post("/issues",response_model=IssueRead)
-def create_an_issue(issue:IssueCreate, db:Session=Depends(get_db)):
-    return create_issue(db,issue)
+def create_an_issue(issue:IssueCreate, db:Session=Depends(get_db), current_user: User =Depends(get_current_user)):
+    return create_issue(db,issue,current_user)
 
 @router.get("/issues",response_model=List[IssueRead])
 def get_all_issues(db: Session=Depends(get_db)):
