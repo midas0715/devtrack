@@ -2,9 +2,10 @@
 from sqlalchemy.orm import Session
 from devtrack.models.comment import Comment
 from devtrack.schemas.comment import CommentCreate, CommentUpdate
+from devtrack.models.user import User
 
-def create_comment(db: Session, comment: CommentCreate):
-    new_comment = Comment(**comment.model_dump(), creator="temp_user")
+def create_comment(db: Session, comment: CommentCreate, user: User):
+    new_comment = Comment(**comment.model_dump(), creator=user.email)
     db.add(new_comment)
     db.commit()
     db.refresh(new_comment)

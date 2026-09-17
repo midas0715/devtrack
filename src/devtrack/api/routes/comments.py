@@ -6,12 +6,13 @@ from devtrack.database.session import get_db
 from devtrack.repositories.comment_repository import (
     create_comment, get_comments, get_comment_by_id, update_comment, delete_comment
 )
-
+from devtrack.models.user import User
+from devtrack.api.dependencies import get_current_user
 router = APIRouter()
 
 @router.post("/comments", response_model=CommentRead)
-def create_a_comment(comment: CommentCreate, db: Session = Depends(get_db)):
-    return create_comment(db, comment)
+def create_a_comment(comment: CommentCreate, db: Session = Depends(get_db), user:User= Depends(get_current_user)):
+    return create_comment(db, comment, user)
 
 @router.get("/comments", response_model=List[CommentRead])
 def get_all_comments(db: Session = Depends(get_db)):
