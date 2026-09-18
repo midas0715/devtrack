@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from devtrack.models.issue import Issue
 from devtrack.schemas.issue import IssueCreate,IssueUpdate
 from devtrack.models.user import User
+from sqlalchemy import or_
 
 def create_issue(db: Session, issue: IssueCreate, current_user: User):
     new_issue= Issue(**issue.model_dump(), creator=current_user.email)
@@ -10,12 +11,17 @@ def create_issue(db: Session, issue: IssueCreate, current_user: User):
     db.refresh(new_issue)
     return new_issue
 
-def get_issues(db: Session, status: str=None, priority: str= None, limit:int=20,offset: int=0):
+def get_issues(db: Session, status: str=None, priority: str= None, search:str=None,limit:int=20,offset: int=0):
     query= db.query(Issue)
     if status:
         query=query.filter(Issue.status==status)
     if priority:
         query=query.filter(Issue.priority==priority)
+    if search:
+        query = query.filter(or_(
+            Issue.title.ilike(f"%{search}%"),
+            Issue.description.ilike(f"%{search}%")
+        ))
     query=query.offset(offset).limit(limit)
     return query.all()
     
