@@ -1,11 +1,12 @@
 from fastapi import APIRouter,Depends,HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from devtrack.repositories.user_repository import create_user,get_user_by_email
 from devtrack.schemas.user import UserCreate,UserRead
 from devtrack.database.session import get_db
 from devtrack.core.security import verify_password,create_access_token
 from sqlalchemy.orm import Session
 
-router=APIRouter()
+router=APIRouter(tags=["Authentication"])
 
 @router.post("/register", response_model=UserRead)
 def creating_an_user(user: UserCreate, db:Session=Depends(get_db)):
@@ -15,10 +16,10 @@ def creating_an_user(user: UserCreate, db:Session=Depends(get_db)):
     return create_user(db,user)
 
 @router.post("/login")
-def user_login(cred: UserCreate, db:Session=Depends(get_db)):
-    user=get_user_by_email(db,cred.email)
+def user_login(form_data:OAuth2PasswordRequestForm=Depends(), db:Session=Depends(get_db)):
+    user=get_user_by_email(db,form_data.username)
 
-    if user is None or not verify_password(cred.password, user.hashed_password):
+    if user is None or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=401,detail="Incorrect email or password")
 
     token= create_access_token({"user_id":user.id})
