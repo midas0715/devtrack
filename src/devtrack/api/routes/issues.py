@@ -14,8 +14,8 @@ def create_an_issue(issue:IssueCreate, db:Session=Depends(get_db), current_user:
     return create_issue(db,issue,current_user)
 
 @router.get("/issues",response_model=List[IssueRead])
-def get_all_issues(status: str=None, priority: str=None, db: Session=Depends(get_db)):
-    return get_issues(db,status,priority)
+def get_all_issues(status: str=None, priority: str=None,limit:int=20, offset:int=0, db: Session=Depends(get_db)):
+    return get_issues(db,status,priority,limit,offset)
 
 @router.get("/issues/{issue_id}",response_model=IssueRead)
 def get_by_id(issue_id:int,db: Session=Depends(get_db)):
