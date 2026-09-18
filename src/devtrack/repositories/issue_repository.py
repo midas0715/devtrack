@@ -10,9 +10,14 @@ def create_issue(db: Session, issue: IssueCreate, current_user: User):
     db.refresh(new_issue)
     return new_issue
 
-def get_issues(db: Session):
-    return db.query(Issue).all()
-
+def get_issues(db: Session, status: str=None, priority: str= None):
+    query= db.query(Issue)
+    if status:
+        query=query.filter(Issue.status==status)
+    if priority:
+        query=query.filter(Issue.priority==priority)
+    return query.all()
+    
 def get_issue_by_id(db:Session, issue_id:int):
     return db.query(Issue).filter(Issue.id==issue_id).first()
 
