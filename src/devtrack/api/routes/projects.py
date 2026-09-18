@@ -15,8 +15,8 @@ def create_projects( project: ProjectCreate, db:Session= Depends(get_db), user:U
     
 
 @router.get("/projects",response_model=List[ProjectRead])
-def get_all_projects(db: Session=Depends(get_db)):
-    return get_projects(db)
+def get_all_projects(search:str=None,limit:int=20,offset:int=0,db: Session=Depends(get_db)):
+    return get_projects(db,search,limit,offset)
 
 @router.get("/projects/{project_id}", response_model=ProjectRead)
 def get_by_id(project_id:int,db:Session=Depends(get_db)):
