@@ -1,3 +1,7 @@
+from devtrack.models.project import Project
+from devtrack.models.issue import Issue
+from devtrack.models.comment import Comment
+from devtrack.models.user import User
 import pytest
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
