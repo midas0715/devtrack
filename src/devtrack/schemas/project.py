@@ -7,6 +7,7 @@ class ProjectCreate(BaseModel):
     description: str
 
 class ProjectRead(BaseModel):
+    model_config={'from_attributes':True}
     id: int
     name:str
     description: str
