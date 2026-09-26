@@ -1,0 +1,23 @@
+(devtrack) PS C:\Users\Pratham\OneDrive\Desktop\devtrack> docker build -t devtrack-app .
+[+] Building 17.3s (9/9) FINISHED                                                                         docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                      0.0s
+ => => transferring dockerfile: 220B                                                                                      0.0s
+ => [internal] load metadata for docker.io/library/python:3.12-slim                                                       0.9s
+ => [internal] load .dockerignore                                                                                         0.0s
+ => => transferring context: 2B                                                                                           0.0s
+ => [1/4] FROM docker.io/library/python:3.12-slim@sha256:2f17fc044b579bab302c2e8054d3a686e2cb9a83de48e70534b94cd8ebbe06a  0.0s
+ => => resolve docker.io/library/python:3.12-slim@sha256:2f17fc044b579bab302c2e8054d3a686e2cb9a83de48e70534b94cd8ebbe06a  0.0s
+ => [internal] load build context                                                                                         0.2s
+ => => transferring context: 313.53kB                                                                                     0.2s
+ => CACHED [2/4] WORKDIR /app                                                                                             0.0s
+ => [3/4] COPY . .                                                                                                        1.9s
+ => [4/4] RUN pip install uv && uv sync --frozen                                                                          5.4s
+ => exporting to image                                                                                                    8.7s 
+ => => exporting layers                                                                                                   5.3s 
+ => => exporting manifest sha256:4f30b768b6e82d4da85b7688ef7468e0be42953f4a8b1cd9e70f99d76c77d8de                         0.0s 
+ => => exporting config sha256:23c9fbe30ce192b8e6450672b97f65e48e054c027cc16ed36d116c53f04d864b                           0.0s 
+ => => exporting attestation manifest sha256:8f00f97fa26bbed5fc0eb168903efaebb97135e2793e8e25b2c68fbdca124b9d             0.0s 
+ => => exporting manifest list sha256:73eaa63489133d58abf06e1787cae3ea023020fd79b6b22b0129825ad8ccdbce                    0.0s 
+ => => naming to docker.io/library/devtrack-app:latest                                                                    0.0s
+ => => unpacking to docker.io/library/devtrack-app:latest                                                                 3.2s
+(devtrack) PS C:\Users\Pratham\OneDrive\Desktop\devtrack> 
