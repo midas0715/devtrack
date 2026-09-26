@@ -7,7 +7,7 @@ from devtrack.database.base import Base
 class Issue(Base):
     __tablename__="issues"
     id: Mapped[int]=mapped_column(primary_key=True)
-    project_id: Mapped[int]=mapped_column(ForeignKey("projects.id"))
+    project_id: Mapped[int]=mapped_column(ForeignKey("projects.id"), index=True)
     title: Mapped[str]=mapped_column(String)
     description: Mapped[str]=mapped_column(String)
     assignee: Mapped[Optional[str]]=mapped_column(String, nullable=True)
