@@ -2,7 +2,20 @@
 
 A production-shaped issue tracker API, built with **FastAPI**, **PostgreSQL**, **Redis**, and **Docker** — developed as a learning project to build real backend engineering skills: API design, database modeling, authentication, caching, testing, and containerization.
 
-> **Status: Feature-complete backend, pre-deployment.** Every core phase of the project is built and tested. Only deployment and final documentation polish remain.
+> **Status: Live and deployed.** The full backend is built, tested, containerized, and running publicly on Render.
+
+**Live API:** https://devtrack-jkwk.onrender.com
+**Interactive docs:** https://devtrack-jkwk.onrender.com/docs
+
+Note: the free-tier instance sleeps after inactivity — the first request after idle time may take 30-60 seconds to respond while it wakes up.
+
+## How to Use the Live API
+
+1. Open the [interactive docs](https://devtrack-jkwk.onrender.com/docs)
+2. `POST /register` with an email and password to create an account
+3. Click the padlock icon (or use `POST /login`) to authenticate — this returns a JWT valid for 30 minutes
+4. Once authorized, create a project (`POST /projects`), then issues under it (`POST /issues`), then comments under those (`POST /comments`)
+5. Explore filtering and search on `GET /issues` (`?status=`, `?priority=`, `?search=`) and `GET /projects` (`?search=`)
 
 ## Tech Stack
 
@@ -83,9 +96,13 @@ Deleting a `User` cascades through Projects → Issues → Comments automaticall
 - `Issue.creator` and `Comment.creator` store the author's email as plain text rather than a foreign key to `User`. Since both already link back to a `Project` (which does have a real `creator_id` FK), this was a deliberate simplification rather than an oversight.
 - Redis caching currently covers `GET /projects` only; `Issue`/`Comment` reads are not yet cached.
 
+## Deployment
+
+Deployed on **Render** (web service, auto-deployed from this GitHub repo via Dockerfile) with a managed **Render PostgreSQL** database and a free-tier **Upstash Redis** instance (Render has no free managed Redis). Database migrations run automatically on container startup (`alembic upgrade head` before `uvicorn` starts), since Render's free tier doesn't provide shell access to run them manually.
+
 ## Not Yet Implemented
 
-- Deployment to a public host/domain
+- A custom domain (currently running on Render's provided subdomain)
 - "Get all issues owned by a user" (would require a SQL join across Project → Issue)
 - Rate limiting
 
